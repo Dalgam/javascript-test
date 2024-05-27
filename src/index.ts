@@ -119,15 +119,8 @@ const handleGradeChange = async (videoId: number, newGrade: number): Promise<voi
   await getVideos().then(createVideoList);
 };
 
-const handleSearch = async (event: Event): Promise<void> => {
-  const target = event.target as HTMLInputElement;
-  if (target.disabled) return;
-  //Prevent further requests to avoid race conditions.
-  // Alternatives would be, cancel previous request, discard all but last request,
-  // queue the latest query, debounce the input, or a combination depending intended UX.
-  target.disabled = true;
-  await getVideos(target.value).then(createVideoList);
-  target.disabled = false;
+const handleSearch = async (query: string): Promise<void> => {
+  await getVideos(query).then(createVideoList);
 };
 
 //Initial setup on page load.
@@ -136,7 +129,16 @@ const init = async (): Promise<void> => {
   //Maybe do this as a form with a button and handle the submit event instead.
   const searchInput = document.getElementById("search_input");
   if (searchInput) {
-    searchInput.onkeydown = handleSearch;
+    searchInput.onkeydown = (event) => {
+      const target = event.target as HTMLInputElement;
+      if (target.disabled) return;
+      //Prevent further requests to avoid race conditions.
+      // Alternatives would be, cancel previous request, discard all but last request,
+      // queue the latest query, debounce the input, or a combination depending intended UX.
+      target.disabled = true;
+      handleSearch(target.value);
+      target.disabled = false;
+    };
   }
 };
 
