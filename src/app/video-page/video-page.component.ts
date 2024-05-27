@@ -22,16 +22,21 @@ export class VideoPageComponent implements OnInit {
   }
 
   getVideos(query?: string) {
+    // Prevent further requests to avoid race conditions by disabling input.
+    // Alternatives would be, cancel previous request, discard all but last request,
+    // queue the latest query, debounce the input, or a combination depending intended UX
     if (this.disableSearch) return;
     this.disableSearch = true;
     this.apiService.getVideos(query).subscribe((videos) => {
-      console.log(videos);
       this.videos = videos;
       this.disableSearch = false;
     });
   }
 
   updateVideo(id: number, changes: VideoChangeBody) {
+    //Prevent further requests to avoid race conditions by disabling input.
+    // Alternatives would be, cancel previous request, discard all but last request,
+    // queue the latest query, debounce the input, or a combination depending intended UX
     if (this.disableVideoUpdate) return;
     this.disableVideoUpdate = true;
     this.apiService.updateVideo(id, changes).subscribe((video) => {
@@ -42,7 +47,6 @@ export class VideoPageComponent implements OnInit {
   }
 
   handleVideoChange(change: VideoChange) {
-    console.log('change 3');
     this.updateVideo(change.id, { grade: change.grade });
   }
 }

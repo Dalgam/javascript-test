@@ -14,7 +14,6 @@ export class VideoListComponent {
   @Output() handleChange = new EventEmitter<VideoChange>();
 
   handleVideoChange(change: VideoChange) {
-    console.log('change2');
     this.handleChange.emit(change);
   }
 }

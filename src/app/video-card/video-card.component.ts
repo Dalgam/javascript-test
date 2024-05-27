@@ -14,7 +14,6 @@ export class VideoCardComponent {
   @Output() handleChange = new EventEmitter<VideoChange>();
 
   handleGradeChange(change: GradeChange) {
-    console.log('change');
     this.handleChange.emit({ id: this.video.id, grade: change.value });
   }
 }
