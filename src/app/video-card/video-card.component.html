@@ -1,0 +1,11 @@
+<div class="video">
+  <img src="../../assets/poster_placeholder.png" alt="video.title" />
+  <h2>{{ video.title }}</h2>
+  <app-grade-stars
+    [currentGrade]="video.grade"
+    [maxGrade]="5"
+    [disabled]="disableUpdate"
+    [id]="video.id"
+    (onChange)="handleGradeChange($event)"
+  />
+</div>

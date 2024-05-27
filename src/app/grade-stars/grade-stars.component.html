@@ -1,0 +1,17 @@
+<div class="stars {{ disabled ? 'disabled' : '' }}">
+  @for (star of starAmountArray; track $index) {
+  <input
+    type="radio"
+    name="grade_{{ $index + 1 }}"
+    [value]="$index + 1"
+    [checked]="$index + 1 === currentGrade"
+    [id]="'star_' + $index + '_' + id"
+    (change)="change($event)"
+  />
+  <label
+    for="star_{{ $index }}_{{ id }}"
+    class="star {{ $index + 1 === currentGrade ? 'active' : '' }}"
+  ></label>
+
+  }
+</div>

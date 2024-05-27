@@ -1,0 +1,9 @@
+<div id="video_list">
+  @for (video of videos; track $index) {
+  <app-video-card
+    [video]="video"
+    [disableUpdate]="disableUpdate"
+    (handleChange)="handleVideoChange($event)"
+  />
+  }
+</div>

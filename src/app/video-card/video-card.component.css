@@ -1,0 +1,6 @@
+.video {
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  max-width: 200px;
+}

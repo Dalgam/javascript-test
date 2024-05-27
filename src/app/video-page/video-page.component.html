@@ -1,0 +1,12 @@
+<div>
+  <h1>Video DB</h1>
+  <app-search-box
+    (handleSearch)="getVideos($event)"
+    [disabled]="disableSearch"
+  />
+  <app-video-list
+    [videos]="videos"
+    [disableUpdate]="disableVideoUpdate"
+    (handleChange)="handleVideoChange($event)"
+  />
+</div>
