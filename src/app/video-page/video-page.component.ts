@@ -46,6 +46,7 @@ export class VideoPageComponent implements OnInit {
     });
   }
 
+  // Not sure if I'm drilling down with the change handler too much. Maybe handle state in some sort of service?
   handleVideoChange(change: VideoChange) {
     this.updateVideo(change.id, { grade: change.grade });
   }
