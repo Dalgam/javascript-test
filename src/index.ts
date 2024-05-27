@@ -84,7 +84,6 @@ const init = async () => {
         // Alternatives would be, cancel previous request, discard all but last request,
         // queue the latest query, debounce the input, or a combination depending intended UX
         target.disabled = true;
-        await new Promise((resolve) => setTimeout(resolve, 1000));
         const videos = await getVideos(target.value);
         createVideoList(videos);
         target.disabled = false;
