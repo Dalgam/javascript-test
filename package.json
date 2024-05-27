@@ -1,19 +1,40 @@
 {
-  "name": "storykit-fe-test",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "storykit-fe-test-angular",
+  "version": "0.0.0",
   "scripts": {
-    "start": "concurrently \"parcel index.html\" \"json-server --watch db.json\"",
-    "server": "json-server --watch db.json"
+    "ng": "ng",
+    "start": "concurrently \"ng serve\" \"json-server --watch db.json\"",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
   },
-  "keywords": [],
-  "author": "Daniel Rönnkvist",
-  "license": "ISC",
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "^17.3.0",
+    "@angular/common": "^17.3.0",
+    "@angular/compiler": "^17.3.0",
+    "@angular/core": "^17.3.0",
+    "@angular/forms": "^17.3.0",
+    "@angular/platform-browser": "^17.3.0",
+    "@angular/platform-browser-dynamic": "^17.3.0",
+    "@angular/router": "^17.3.0",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.14.3"
+  },
   "devDependencies": {
+    "@angular-devkit/build-angular": "^17.3.7",
+    "@angular/cli": "^17.3.7",
+    "@angular/compiler-cli": "^17.3.0",
+    "@types/jasmine": "~5.1.0",
+    "jasmine-core": "~5.1.0",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "typescript": "~5.4.2",
     "concurrently": "^6.0.0",
-    "json-server": "^0.16.3",
-    "parcel-bundler": "1.12.3",
-    "typescript": "^4.2.2"
+    "json-server": "^0.16.3"
   }
 }
