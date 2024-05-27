@@ -21,7 +21,7 @@ const getVideos = async (title?): Promise<Video[]> => {
 // PUT http://localhost:3000/videos/${id}
 // I Chose to do a PATCH instead to prevent corruption of DB data .
 // If PUT is absolutely necessary, I would have to make sure all fields are present in the request body.
-// Also only allow title and grade to change to prevent corruption of the data by allwoing the user to change id somehow
+// Also only allow title and grade to change to prevent corruption of the data by allowing the user to change id somehow
 const updateVideo = async (id: number, changes: { title?: string; grade?: number }): Promise<Video> => {
   const response = await fetch(`http://localhost:3000/videos/${id}`, {
     method: "PATCH",
@@ -80,8 +80,14 @@ const init = async () => {
     searchInput.onkeydown = async (event) => {
       const target = event.target as HTMLInputElement;
       if (event.key === "Enter") {
+        //Prevent further requests to avoid race conditions.
+        // Alternatives would be, cancel previous request, discard all but last request,
+        // queue the latest query, debounce the input, or a combination depending intended UX
+        target.disabled = true;
+        await new Promise((resolve) => setTimeout(resolve, 1000));
         const videos = await getVideos(target.value);
         createVideoList(videos);
+        target.disabled = false;
       }
     };
   }
