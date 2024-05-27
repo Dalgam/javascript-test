@@ -34,6 +34,7 @@ const updateVideo = async (id: number, changes: { title?: string; grade?: number
   return await response.json();
 };
 
+//Might constitute performance issues if the list is too long
 const createVideoList = (videos: Video[]) => {
   const videoList = document.getElementById("video_list");
   if (videoList) {
@@ -50,6 +51,8 @@ const createVideoList = (videos: Video[]) => {
       `;
       const inputElement = document.createElement("input");
       inputElement.type = "number";
+      inputElement.min = "1";
+      inputElement.max = "5";
       inputElement.value = video.grade.toString();
       inputElement.onchange = onGradeChange;
       inputElement.dataset.id = video.id.toString();
@@ -58,6 +61,14 @@ const createVideoList = (videos: Video[]) => {
       videoList.appendChild(videoElement);
     });
   }
+};
+
+const onGradeChange = async (event: Event) => {
+  const target = event.target as HTMLInputElement;
+
+  if (!target || typeof target.dataset.id === "undefined") return;
+  updateVideo(parseInt(target.dataset.id), { grade: parseInt(target.value) });
+  // Make sure FE data is reflecting BE data here
 };
 
 const init = async () => {
@@ -77,19 +88,3 @@ const init = async () => {
 };
 
 init();
-
-const onGradeChange = async (event: Event) => {
-  const target = event.target as HTMLInputElement;
-
-  if (!target || typeof target.dataset.id === "undefined") return;
-  updateVideo(parseInt(target.dataset.id), { grade: parseInt(target.value) });
-  // Make sure FE data is reflecting BE data here
-};
-/*
-declare global {
-  interface Window {
-    onGradeChange: (event: Event) => void;
-  }
-}
-window.onGradeChange = onGradeChange;
- */
