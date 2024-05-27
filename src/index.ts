@@ -49,14 +49,14 @@ const createGradeStars = (
     input.name = "grade";
     input.value = (index + 1).toString();
     input.checked = currentGrade === index + 1;
-    input.id = `star${index + 1}`;
+    input.id = `star${index + 1}_${videoId}`;
     stars.appendChild(input);
     const label = document.createElement("label");
     label.classList.add("star");
     if (index + 1 === currentGrade) label.classList.add("active");
     input.onchange = onChange;
 
-    label.htmlFor = `star${index + 1}`;
+    label.htmlFor = `star${index + 1}_${videoId}`;
     label.ariaHidden = "true";
     label.title = `${index + 1} star`;
     stars.appendChild(label);
@@ -85,10 +85,11 @@ const createVideoList = (videos: Video[]) => {
 
       const stars = createGradeStars(video.id, video.grade, 5, async (event) => {
         const target = event.target as HTMLInputElement;
-        console.log(video);
-        if (!target || target.disabled) return;
-        console.log(target);
-        target.disabled = true;
+
+        if (!target || target.classList.contains("disabled")) return;
+        //Prevent further requests to avoid race conditions.
+        // Alternatives would be, cancel previous request, discard all but last request,
+        // queue the latest query, debounce the input, or a combination depending intended UX
         target.parentElement?.classList.add("disabled");
         await handleGradeChange(video.id, parseInt(target.value));
         target.parentElement?.classList.remove("disabled");
@@ -102,12 +103,17 @@ const createVideoList = (videos: Video[]) => {
 const handleGradeChange = async (videoId: number, newGrade: number) => {
   updateVideo(videoId, { grade: newGrade });
   await new Promise((resolve) => setTimeout(resolve, 1000));
-  // Make sure FE data is reflecting BE data here
+  //alternatively, find and update the star element directly
+  const videos = await getVideos();
+  createVideoList(videos);
 };
 
 const handleSearch = async (event: Event) => {
   const target = event.target as HTMLInputElement;
   if (target.disabled) return;
+  //Prevent further requests to avoid race conditions.
+  // Alternatives would be, cancel previous request, discard all but last request,
+  // queue the latest query, debounce the input, or a combination depending intended UX
   target.disabled = true;
   const videos = await getVideos(target.value);
   createVideoList(videos);
