@@ -1,12 +1,51 @@
-.video{
+.video {
   padding: 2em;
   display: flex;
   flex-direction: column;
   max-width: 200px;
 }
 
-#video_list{
+#video_list {
   /* Maybe grid instead? */
   display: flex;
   flex-wrap: wrap;
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: default;
+}
+
+.stars {
+  margin-top: 40px;
+  border: none;
+}
+
+.stars > label:before {
+  margin: 5px;
+  font-size: 2em;
+  content: "*";
+  height: 48px;
+}
+.stars > label {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.stars > input {
+  display: none;
+}
+.stars > .star {
+  color: #f79426;
+}
+.active ~ .star {
+  color: #90a0a3;
+}
+
+.stars:hover .star {
+  color: #fece31;
+}
+.stars:hover .star:hover ~ .star {
+  color: #90a0a3;
 }
